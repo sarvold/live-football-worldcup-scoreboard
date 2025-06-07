@@ -131,4 +131,8 @@ describe('Scoreboard', () => {
       expect(summary[0].awayTeam).toBe('Canada');
     });
   });
+
+  describe('getSummary', () => {
+    it('should return matches ordered by total score and start time', () => {});
+  });
 }); 
