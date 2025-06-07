@@ -38,4 +38,12 @@ describe('Scoreboard', () => {
       expect(() => scoreboard.startMatch(team, 'Canada')).toThrow('Match already exists');
     });
   });
+
+  describe('updateScore', () => {
+    it('should update the score of an existing match', () => {});
+
+    it('should throw error when trying to update non-existent match', () => {});
+
+    it('should throw error when trying to update with negative scores', () => {});
+  });
 }); 
