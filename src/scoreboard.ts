@@ -14,11 +14,28 @@ export class Scoreboard {
     return `${homeTeam}-${awayTeam}`;
   }
 
+  private isTeamInMatch(team: string): boolean {
+    return Array.from(this.matches.values()).some(
+      match => match.homeTeam === team || match.awayTeam === team
+    );
+  }
+
   public startMatch(homeTeam: string, awayTeam: string): void {
     const matchKey = this.getMatchKey(homeTeam, awayTeam);
     
     if (this.matches.has(matchKey)) {
       throw new Error('Match already exists');
+    }
+
+    const homeTeamInMatch = this.isTeamInMatch(homeTeam);
+    const awayTeamInMatch = this.isTeamInMatch(awayTeam);
+
+    if (homeTeamInMatch && awayTeamInMatch) {
+      throw new Error('Both teams are already in matches');
+    } else if (homeTeamInMatch) {
+      throw new Error(`Team ${homeTeam} is already in a match`);
+    } else if (awayTeamInMatch) {
+      throw new Error(`Team ${awayTeam} is already in a match`);
     }
 
     this.matches.set(matchKey, {
@@ -49,6 +66,16 @@ export class Scoreboard {
       awayScore,
       totalScore: homeScore + awayScore
     });
+  }
+
+  public finishMatch(homeTeam: string, awayTeam: string): void {
+    const matchKey = this.getMatchKey(homeTeam, awayTeam);
+    
+    if (!this.matches.has(matchKey)) {
+      throw new Error('Match not found');
+    }
+
+    this.matches.delete(matchKey);
   }
 
   public getSummary(): Match[] {
