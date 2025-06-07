@@ -47,7 +47,7 @@ describe('Scoreboard', () => {
       scoreboard.startMatch(homeTeam, awayTeam);
 
       // Act
-      scoreboard.updateScore(homeTeam, awayTeam, 0, 5);
+      scoreboard.updateScore(homeTeam, awayTeam, 6, 0);
 
       // Assert
       const summary = scoreboard.getSummary();
