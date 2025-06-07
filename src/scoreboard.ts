@@ -79,6 +79,14 @@ export class Scoreboard {
   }
 
   public getSummary(): Match[] {
-    return Array.from(this.matches.values());
+    return Array.from(this.matches.values())
+      .sort((a, b) => {
+        // First sort by total score (descending)
+        if (b.totalScore !== a.totalScore) {
+          return b.totalScore - a.totalScore;
+        }
+        // If scores are equal, sort by start time (most recent first)
+        return b.startTime.getTime() - a.startTime.getTime();
+      });
   }
 } 

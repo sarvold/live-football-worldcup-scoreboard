@@ -2,9 +2,17 @@ import { Scoreboard } from './scoreboard';
 
 describe('Scoreboard', () => {
   let scoreboard: Scoreboard;
+  let mockDate: Date;
 
   beforeEach(() => {
     scoreboard = new Scoreboard();
+    mockDate = new Date('2024-01-01T00:00:00Z');
+    jest.useFakeTimers();
+    jest.setSystemTime(mockDate);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   describe('startMatch', () => {
@@ -25,7 +33,7 @@ describe('Scoreboard', () => {
         homeScore: 0,
         awayScore: 0,
         totalScore: 0,
-        startTime: expect.any(Date)
+        startTime: mockDate
       });
     });
 
@@ -75,7 +83,7 @@ describe('Scoreboard', () => {
         homeScore: 6,
         awayScore: 0,
         totalScore: 6,
-        startTime: expect.any(Date)
+        startTime: mockDate
       });
     });
 
@@ -135,11 +143,15 @@ describe('Scoreboard', () => {
   describe('getSummary', () => {
     it('should return matches ordered by total score and start time', () => {
       // Arrange
-      // Start matches in specific order
+      // Start matches in specific order with different start times
       scoreboard.startMatch('Mexico', 'Canada');
+      jest.advanceTimersByTime(1000);
       scoreboard.startMatch('Spain', 'Brazil');
+      jest.advanceTimersByTime(1000);
       scoreboard.startMatch('Germany', 'France');
+      jest.advanceTimersByTime(1000);
       scoreboard.startMatch('Uruguay', 'Italy');
+      jest.advanceTimersByTime(1000);
       scoreboard.startMatch('Argentina', 'Australia');
 
       // Update scores to match the example
