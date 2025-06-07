@@ -1,5 +1,1 @@
-export class Scoreboard {
-  constructor() {
-    // Initialize scoreboard
-  }
-} 
+export * from './scoreboard'; 
