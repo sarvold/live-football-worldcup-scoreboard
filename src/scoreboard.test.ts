@@ -40,10 +40,42 @@ describe('Scoreboard', () => {
   });
 
   describe('updateScore', () => {
-    it('should update the score of an existing match', () => {});
+    it('should update the score of an existing match', () => {
+      // Arrange
+      const homeTeam = 'Argentina';
+      const awayTeam = 'Australia';
+      scoreboard.startMatch(homeTeam, awayTeam);
 
-    it('should throw error when trying to update non-existent match', () => {});
+      // Act
+      scoreboard.updateScore(homeTeam, awayTeam, 0, 5);
 
-    it('should throw error when trying to update with negative scores', () => {});
+      // Assert
+      const summary = scoreboard.getSummary();
+      expect(summary[0]).toEqual({
+        homeTeam,
+        awayTeam,
+        homeScore: 6,
+        awayScore: 0,
+        totalScore: 6,
+        startTime: expect.any(Date)
+      });
+    });
+
+    it('should throw error when trying to update non-existent match', () => {
+      // Act & Assert
+      expect(() => scoreboard.updateScore('Argentina', 'Australia', 6, 0))
+        .toThrow('Match not found');
+    });
+
+    it('should throw error when trying to update with negative scores', () => {
+      // Arrange
+      scoreboard.startMatch('Argentina', 'Australia');
+
+      // Act & Assert
+      expect(() => scoreboard.updateScore('Argentina', 'Australia', -1, 1))
+        .toThrow('Scores cannot be negative');
+      expect(() => scoreboard.updateScore('Argentina', 'Australia', 0, -1))
+        .toThrow('Scores cannot be negative');
+    });
   });
 }); 
