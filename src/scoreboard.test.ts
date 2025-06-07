@@ -133,6 +133,52 @@ describe('Scoreboard', () => {
   });
 
   describe('getSummary', () => {
-    it('should return matches ordered by total score and start time', () => {});
+    it('should return matches ordered by total score and start time', () => {
+      // Arrange
+      // Start matches in specific order
+      scoreboard.startMatch('Mexico', 'Canada');
+      scoreboard.startMatch('Spain', 'Brazil');
+      scoreboard.startMatch('Germany', 'France');
+      scoreboard.startMatch('Uruguay', 'Italy');
+      scoreboard.startMatch('Argentina', 'Australia');
+
+      // Update scores to match the example
+      scoreboard.updateScore('Mexico', 'Canada', 0, 5);
+      scoreboard.updateScore('Spain', 'Brazil', 10, 2);
+      scoreboard.updateScore('Germany', 'France', 2, 2);
+      scoreboard.updateScore('Uruguay', 'Italy', 6, 6);
+      scoreboard.updateScore('Argentina', 'Australia', 3, 1);
+
+      // Act
+      const summary = scoreboard.getSummary();
+
+      // Assert
+      expect(summary).toHaveLength(5);
+      expect(summary[0]).toEqual(expect.objectContaining({
+        homeTeam: 'Uruguay',
+        awayTeam: 'Italy',
+        totalScore: 12
+      }));
+      expect(summary[1]).toEqual(expect.objectContaining({
+        homeTeam: 'Spain',
+        awayTeam: 'Brazil',
+        totalScore: 12
+      }));
+      expect(summary[2]).toEqual(expect.objectContaining({
+        homeTeam: 'Mexico',
+        awayTeam: 'Canada',
+        totalScore: 5
+      }));
+      expect(summary[3]).toEqual(expect.objectContaining({
+        homeTeam: 'Argentina',
+        awayTeam: 'Australia',
+        totalScore: 4
+      }));
+      expect(summary[4]).toEqual(expect.objectContaining({
+        homeTeam: 'Germany',
+        awayTeam: 'France',
+        totalScore: 4
+      }));
+    });
   });
 }); 
