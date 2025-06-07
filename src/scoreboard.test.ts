@@ -37,6 +37,24 @@ describe('Scoreboard', () => {
       // Act & Assert
       expect(() => scoreboard.startMatch(team, 'Canada')).toThrow('Match already exists');
     });
+
+    it('should throw error when trying to start a match with a team already in another match', () => {
+      // Arrange
+      scoreboard.startMatch('Mexico', 'Canada');
+
+      // Act & Assert
+      expect(() => scoreboard.startMatch('Mexico', 'Brazil')).toThrow('Team Mexico is already in a match');
+      expect(() => scoreboard.startMatch('Brazil', 'Canada')).toThrow('Team Canada is already in a match');
+    });
+
+    it('should throw error when both teams are already in different matches', () => {
+      // Arrange
+      scoreboard.startMatch('Mexico', 'Canada');
+      scoreboard.startMatch('Brazil', 'Argentina');
+
+      // Act & Assert
+      expect(() => scoreboard.startMatch('Mexico', 'Brazil')).toThrow('Both teams are already in matches');
+    });
   });
 
   describe('updateScore', () => {
