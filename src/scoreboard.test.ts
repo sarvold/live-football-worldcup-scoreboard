@@ -78,4 +78,12 @@ describe('Scoreboard', () => {
         .toThrow('Scores cannot be negative');
     });
   });
+
+  describe('finishMatch', () => {
+    it('should remove a match from the scoreboard', () => {});
+
+    it('should throw error when trying to finish a non-existent match', () => {});
+
+    it('should not affect other matches when one is finished', () => {});
+  });
 }); 
