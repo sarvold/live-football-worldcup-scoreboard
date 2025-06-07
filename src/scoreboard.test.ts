@@ -80,10 +80,37 @@ describe('Scoreboard', () => {
   });
 
   describe('finishMatch', () => {
-    it('should remove a match from the scoreboard', () => {});
+    it('should remove a match from the scoreboard', () => {
+      // Arrange
+      scoreboard.startMatch('Spain', 'Brazil');
+      expect(scoreboard.getSummary()).toHaveLength(1);
 
-    it('should throw error when trying to finish a non-existent match', () => {});
+      // Act
+      scoreboard.finishMatch('Spain', 'Brazil');
 
-    it('should not affect other matches when one is finished', () => {});
+      // Assert
+      expect(scoreboard.getSummary()).toHaveLength(0);
+    });
+
+    it('should throw error when trying to finish a non-existent match', () => {
+      // Act & Assert
+      expect(() => scoreboard.finishMatch('Uruguay', 'Italy')).toThrow('Match not found');
+    });
+
+    it('should not affect other matches when one is finished', () => {
+      // Arrange
+      scoreboard.startMatch('Germany', 'France');
+      scoreboard.startMatch('Mexico', 'Canada');
+      expect(scoreboard.getSummary()).toHaveLength(2);
+
+      // Act
+      scoreboard.finishMatch('Germany', 'France');
+
+      // Assert
+      const summary = scoreboard.getSummary();
+      expect(summary).toHaveLength(1);
+      expect(summary[0].homeTeam).toBe('Mexico');
+      expect(summary[0].awayTeam).toBe('Canada');
+    });
   });
 }); 
